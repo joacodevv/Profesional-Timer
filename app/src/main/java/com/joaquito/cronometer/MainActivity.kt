@@ -8,15 +8,23 @@ import android.os.Looper
 import android.widget.Button
 import android.widget.NumberPicker
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.joaquito.cronometer.databinding.ActivityMainBinding
-import com.joaquito.cronometer.databinding.DialogCountdownBinding
+
+
 
 class MainActivity : AppCompatActivity() {
+
+    private val partials = mutableListOf<PartialModel>()
+
+    private lateinit var rvPartial: RecyclerView
+    private lateinit var partialAdapter: PartialAdapter
 
     private lateinit var binding: ActivityMainBinding
 
     private var isRunning = false
-    private var timerSecs = 0
+    private var timerSecs: Int = 0
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = object : Runnable {
         override fun run() {
@@ -36,15 +44,35 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initListeners()
+        initUI()
 
     }
+
+    private fun initUI() {
+        rvPartial = findViewById(R.id.rvPartial)
+        partialAdapter = PartialAdapter(partials)
+        rvPartial.adapter = partialAdapter
+        rvPartial.layoutManager = LinearLayoutManager(this)
+
+    }
+
+
 
 
     private fun initListeners() {
         binding.btnStart.setOnClickListener { startTimer() }
         binding.btnStop.setOnClickListener { stopTimer() }
         binding.btnRestart.setOnClickListener { restartTimer() }
-        binding.btnCountDown.setOnClickListener { CountDown() }
+        binding.btnCountDown.setOnClickListener { countDown() }
+        binding.btnPartial.setOnClickListener { takePartial() }
+        binding.btnResetPartial.setOnClickListener { resetPartial() }
+    }
+
+    private fun resetPartial() {
+        partials.clear()
+        restartTimer()
+        rvPartial.isVisible = false
+        binding.btnResetPartial.isVisible = false
     }
 
     private fun startTimer() {
@@ -55,6 +83,7 @@ class MainActivity : AppCompatActivity() {
             binding.btnStop.isEnabled = true
             binding.btnRestart.isEnabled = true
             binding.btnCountDown.isEnabled = false
+            binding.btnPartial.isEnabled = true
         }
     }
 
@@ -82,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun CountDown(){
+    private fun countDown(){
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_countdown)
         val npHours: NumberPicker = dialog.findViewById(R.id.npHours)
@@ -177,6 +206,20 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
         }
 
+    private fun takePartial(){
+        val hrs = timerSecs / 3600
+        val min = (timerSecs % 3600) / 60
+        val secs = timerSecs % 60
+
+        val time = String.format("%02d:%02d:%02d", hrs, min, secs)
+        if (isRunning){
+            partials.add(PartialModel(time))
+            rvPartial.isVisible = true
+            partialAdapter.notifyDataSetChanged()
+            binding.btnResetPartial.isVisible = true
+        }
 
 
     }
+
+}
