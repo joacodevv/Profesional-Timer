@@ -1,6 +1,7 @@
 package com.joaquito.cronometer
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -11,15 +12,17 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joaquito.cronometer.databinding.ActivityMainBinding
-
+import com.joaquito.cronometer.partials.PartialAdapter
 
 
 class MainActivity : AppCompatActivity() {
 
     private val partials = mutableListOf<PartialModel>()
 
+
     private lateinit var rvPartial: RecyclerView
     private lateinit var partialAdapter: PartialAdapter
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -54,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         rvPartial.adapter = partialAdapter
         rvPartial.layoutManager = LinearLayoutManager(this)
 
+
     }
 
 
@@ -66,6 +71,14 @@ class MainActivity : AppCompatActivity() {
         binding.btnCountDown.setOnClickListener { countDown() }
         binding.btnPartial.setOnClickListener { takePartial() }
         binding.btnResetPartial.setOnClickListener { resetPartial() }
+        binding.btnFullScreenPartials.setOnClickListener { navigateToFSP() }
+
+
+    }
+
+    private fun navigateToFSP() {
+        intent = Intent(this, FullScreenPartialsActivity::class.java)
+        startActivity(intent)
     }
 
     private fun resetPartial() {
@@ -95,6 +108,8 @@ class MainActivity : AppCompatActivity() {
             binding.btnStart.text = "RESUME"
             binding.btnStop.isEnabled = false
             binding.btnRestart.isEnabled = true
+            binding.btnPartial.isEnabled = false
+            binding.btnResetPartial.isVisible = false
         }
     }
 
@@ -108,6 +123,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnRestart.isEnabled = false
         binding.btnStart.text = "START"
         binding.btnCountDown.isEnabled = true
+        binding.btnPartial.isEnabled = false
+        binding.btnResetPartial.isVisible = false
 
     }
 
@@ -221,5 +238,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
 
 }

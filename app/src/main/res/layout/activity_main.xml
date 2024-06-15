@@ -60,6 +60,7 @@
             app:layout_constraintTop_toBottomOf="@id/btnStop"
             tools:ignore="MissingConstraints" />
 
+
         <Button
             android:id="@+id/btnCountDown"
             android:layout_width="0dp"
@@ -148,13 +149,23 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPartial"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btnContainer"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnContainer" />
 
-
+    <Button
+        android:id="@+id/btnFullScreenPartials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:enabled="true"
+        android:text="COACH MODE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="8dp"
+        tools:ignore="MissingConstraints" />
 
 
 
