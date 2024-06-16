@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/stopWatchFragment">
+    <fragment
+        android:id="@+id/countdownFragment"
+        android:name="com.joaquito.cronometer.countdown.CountdownFragment"
+        android:label="fragment_countdown"
+        tools:layout="@layout/fragment_countdown" />
+    <fragment
+        android:id="@+id/splitFragment"
+        android:name="com.joaquito.cronometer.splits.SplitFragment"
+        android:label="fragment_split"
+        tools:layout="@layout/fragment_split" />
+    <fragment
+        android:id="@+id/stopWatchFragment"
+        android:name="com.joaquito.cronometer.stopwatch.StopWatchFragment"
+        android:label="fragment_stop_watch"
+        tools:layout="@layout/fragment_stop_watch" />
+</navigation>

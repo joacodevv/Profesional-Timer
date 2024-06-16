@@ -115,6 +115,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnStopCountDown"
             app:layout_constraintTop_toBottomOf="@id/btnResumeCountDown"
+            app:layout_constraintBottom_toTopOf="@id/btnPartial"
             tools:ignore="MissingConstraints" />
 
         <Button

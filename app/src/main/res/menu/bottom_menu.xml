@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/stopWatchFragment"
+        android:title="StopWatch"
+        android:icon="@drawable/ic_stopwatch"/>
+
+    <item
+        android:id="@+id/countdownFragment"
+        android:title="Countdown"
+        android:icon="@drawable/ic_countdown"/>
+
+    <item
+        android:id="@+id/splitFragment"
+        android:title="Split"
+        android:icon="@drawable/ic_split"/>
+</menu>
