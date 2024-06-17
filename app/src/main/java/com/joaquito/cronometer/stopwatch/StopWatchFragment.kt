@@ -1,60 +1,100 @@
 package com.joaquito.cronometer.stopwatch
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.joaquito.cronometer.R
+import com.joaquito.cronometer.databinding.FragmentStopWatchBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [StopWatchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StopWatchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var _binding: FragmentStopWatchBinding? = null
+    private val binding get() = _binding!!
+
+    private var isRunning = false
+    private var timerSecs: Int = 0
+    private val handler = Handler(Looper.getMainLooper())
+    private val runnable = object : Runnable {
+        override fun run() {
+            timerSecs++
+            val hrs = timerSecs / 3600
+            val min = (timerSecs % 3600) / 60
+            val secs = timerSecs % 60
+
+            val time = String.format("%02d:%02d:%02d", hrs, min, secs)
+            binding.tvTimer.text = time
+            handler.postDelayed(this, 1000)
         }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListeners()
+        running()
+        if (timerSecs == 15){
+            binding.tvTimer.text = "pito"
+        }
+    }
+
+    private fun running() {
+        if (isRunning){
+            binding.btnStop.isEnabled = true
+            binding.btnRestart.isEnabled = true
+            binding.btnStart.isEnabled = false
+        }
+    }
+
+    private fun initListeners() {
+        binding.btnStart.setOnClickListener { startTimer() }
+        binding.btnStop.setOnClickListener { stopTimer() }
+        binding.btnRestart.setOnClickListener { restartTimer() }
+    }
+
+    private fun restartTimer() {
+        handler.removeCallbacks(runnable)
+        timerSecs = 0
+        isRunning = false
+        binding.tvTimer.text = "00:00:00"
+        binding.btnStart.isEnabled = true
+        binding.btnStop.isEnabled = false
+        binding.btnRestart.isEnabled = false
+        binding.btnStart.text = "START"
+
+    }
+
+    private fun stopTimer() {
+        if (isRunning){
+            handler.removeCallbacks(runnable)
+            isRunning = false
+            binding.btnStart.isEnabled = true
+            binding.btnStart.text = "RESUME"
+            binding.btnStop.isEnabled = false
+            binding.btnRestart.isEnabled = true
+        }
+    }
+
+    private fun startTimer() {
+        if (!isRunning){
+            handler.postDelayed(runnable, 1000)
+            isRunning = true
+            binding.btnStart.isEnabled = false
+            binding.btnStop.isEnabled = true
+            binding.btnRestart.isEnabled = true
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stop_watch, container, false)
+        _binding = FragmentStopWatchBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StopWatchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StopWatchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

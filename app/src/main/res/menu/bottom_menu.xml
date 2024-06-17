@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/countdownFragment"
-        android:title="Countdown"
+        android:title="CountDown"
         android:icon="@drawable/ic_countdown"/>
 
     <item

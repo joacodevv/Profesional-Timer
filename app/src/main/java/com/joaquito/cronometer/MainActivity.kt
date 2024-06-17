@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
             }
             dialog.hide()
             handler.postDelayed(countDown, 1000)
-            if (timerSecs == 0){
+            if (timerSecs == timerSecs - timerSecs){
                 handler.removeCallbacks(countDown)
                 binding.tvTimer.text = "00:00:00"
                 btnCancelCountDown.isVisible = false
