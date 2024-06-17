@@ -36,9 +36,6 @@ class StopWatchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         running()
-        if (timerSecs == 15){
-            binding.tvTimer.text = "pito"
-        }
     }
 
     private fun running() {

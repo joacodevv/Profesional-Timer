@@ -1,21 +1,13 @@
 package com.joaquito.cronometer.countdown
 
-import android.app.Dialog
-import android.content.Context
+
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isVisible
-import com.joaquito.cronometer.R
 import com.joaquito.cronometer.databinding.FragmentCountdownBinding
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
@@ -26,13 +18,14 @@ class CountdownFragment : Fragment() {
     private var _binding: FragmentCountdownBinding? = null
     private val binding get() = _binding!!
 
+
     private lateinit var customCountdownTimer: CustomCountdownTimer
 
-    private val countdownTime = 30
+    private val countdownTime = 3600
     private val clockTime = (countdownTime * 1000).toLong()
     private val progressTime = (clockTime / 1000).toFloat()
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             onBackPressedMethod()
         }
@@ -40,21 +33,22 @@ class CountdownFragment : Fragment() {
     }
 
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
 
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
 
         var secondsLeft = 0
-        customCountdownTimer = object : CustomCountdownTimer(clockTime, 1000){
+        customCountdownTimer = object : CustomCountdownTimer(clockTime, 1000) {
 
         }
         customCountdownTimer.onTick = {
 
             val second = (it / 1000.0f).roundToInt()
-            if ( second != secondsLeft){
+            if (second != secondsLeft) {
                 secondsLeft = second
 
                 timerFormat(secondsLeft, binding.tvTime)
@@ -89,7 +83,10 @@ class CountdownFragment : Fragment() {
 
         val timeFormat1 = decimalFormat.format(secondsLeft)
         val timeFormat2 = decimalFormat.format(min) + ":" + decimalFormat.format(secs)
-        val timeFormat3 = decimalFormat.format(hour) + ":" + decimalFormat.format(min) + ":" + decimalFormat.format(secs)
+        val timeFormat3 =
+            decimalFormat.format(hour) + ":" + decimalFormat.format(min) + ":" + decimalFormat.format(
+                secs
+            )
 
         binding.tvTime.text = timeFormat1 + "\n" + timeFormat2 + "\n" + timeFormat3
     }
@@ -124,3 +121,5 @@ class CountdownFragment : Fragment() {
     }
 
 }
+
+

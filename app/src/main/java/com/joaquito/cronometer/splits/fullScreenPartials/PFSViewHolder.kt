@@ -1,4 +1,4 @@
-package com.joaquito.cronometer.fullScreenPartials
+package com.joaquito.cronometer.splits.fullScreenPartials
 
 import android.view.View
 import android.widget.TextView
